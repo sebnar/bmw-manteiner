@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BMW E90">
+<meta name="theme-color" content="#1e3a8a">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231e3a8a'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white'%3E🔧%3C/text%3E%3C/svg%3E">
+<title>BMW E90 N52 - Plan</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0a0e14;
+    color: #e8e8e8;
+    line-height: 1.5;
+    padding: 0;
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .container { max-width: 600px; margin: 0 auto; padding: 16px; padding-bottom: 80px; }
+  
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
+    padding: 20px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border-left: 4px solid #3b82f6;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; opacity: 0.8; }
+  
+  .progress-bar {
+    background: rgba(255,255,255,0.1);
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    background: linear-gradient(90deg, #10b981, #34d399);
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+  }
+  .progress-text { font-size: 12px; margin-top: 6px; opacity: 0.9; }
+  
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    background: #1f2937;
+    color: #9ca3af;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    -webkit-appearance: none;
+  }
+  .tab.active {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .section { display: none; }
+  .section.active { display: block; }
+  
+  .card {
+    background: #111827;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #1f2937;
+  }
+  
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badge {
+    background: #1f2937;
+    color: #9ca3af;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .badge.priority-high { background: #7f1d1d; color: #fca5a5; }
+  .badge.priority-med { background: #78350f; color: #fcd34d; }
+  .badge.priority-low { background: #14532d; color: #86efac; }
+  
+  .item {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #1f2937;
+    gap: 12px;
+  }
+  .item:last-child { border-bottom: none; }
+  
+  .checkbox {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #4b5563;
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: transparent;
+    margin-top: 2px;
+  }
+  .checkbox.checked {
+    background: #10b981;
+    border-color: #10b981;
+  }
+  .checkbox.checked::after {
+    content: "✓";
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .item-content { flex: 1; min-width: 0; }
+  .item-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .item-name.done {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+  
+  .price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .price-estimated {
+    font-size: 11px;
+    color: #6b7280;
+    background: #1f2937;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .price-input-wrap {
+    display: flex;
+    align-items: center;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px 10px;
+    flex: 1;
+    min-width: 130px;
+    transition: border-color 0.2s;
+  }
+  .price-input-wrap:focus-within {
+    border-color: #3b82f6;
+  }
+  .price-input-wrap .currency {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-right: 4px;
+  }
+  .price-input {
+    background: transparent;
+    border: none;
+    color: #34d399;
+    font-size: 15px;
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+    -webkit-appearance: none;
+  }
+  .price-input::placeholder {
+    color: #475569;
+    font-weight: 400;
+  }
+  .price-diff {
+    font-size: 11px;
+    padding: 4px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .price-diff.better {
+    background: #064e3b;
+    color: #6ee7b7;
+  }
+  .price-diff.worse {
+    background: #7f1d1d;
+    color: #fca5a5;
+  }
+  .price-diff.equal {
+    background: #1e3a5f;
+    color: #93c5fd;
+  }
+  
+  .item-note {
+    font-size: 12px;
+    color: #cbd5e1;
+    margin-top: 6px;
+    font-style: italic;
+    background: #0f172a;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border-left: 3px solid #3b82f6;
+  }
+  
+  .totals {
+    background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #10b981;
+  }
+  .totals-title {
+    font-size: 13px;
+    color: #86efac;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .totals-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+  .totals-row.grand {
+    border-top: 1px solid #10b981;
+    margin-top: 8px;
+    padding-top: 12px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .totals-row.spent { color: #34d399; }
+  .totals-row.pending { color: #fcd34d; }
+  .totals-row.saved { color: #93c5fd; font-size: 13px; }
+  
+  .notes-area {
+    width: 100%;
+    background: #0f172a;
+    border: 1px solid #1f2937;
+    color: #e8e8e8;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+    -webkit-appearance: none;
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding-left: 28px;
+    padding-bottom: 20px;
+    border-left: 2px solid #1f2937;
+  }
+  .timeline-item:last-child { border-left: 2px solid transparent; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1f2937;
+    border: 2px solid #3b82f6;
+  }
+  .timeline-item.done::before {
+    background: #10b981;
+    border-color: #10b981;
+  }
+  .timeline-phase {
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  
+  .info-box {
+    background: #0f172a;
+    border-left: 3px solid #3b82f6;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #cbd5e1;
+    margin: 12px 0;
+  }
+  .info-box strong { color: #60a5fa; }
+  
+  .danger-box {
+    background: #1f1410;
+    border-left: 3px solid #ef4444;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #fca5a5;
+    margin: 12px 0;
+  }
+  
+  .torque-table {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .torque-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid #1f2937;
+  }
+  .torque-value {
+    color: #fbbf24;
+    font-weight: 700;
+    font-family: monospace;
+  }
+  
+  .torque-search {
+    width: 100%;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #e8e8e8;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    margin-bottom: 12px;
+    -webkit-appearance: none;
+  }
+  .torque-search:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  .torque-search::placeholder { color: #475569; }
+  
+  .torque-item {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-left: 3px solid #3b82f6;
+  }
+  .torque-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e8e8e8;
+    margin-bottom: 4px;
+  }
+  .torque-item-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fbbf24;
+    font-family: monospace;
+    margin-bottom: 4px;
+  }
+  .torque-item-note {
+    font-size: 11px;
+    color: #94a3b8;
+    font-style: italic;
+  }
+  .torque-item.warning {
+    border-left-color: #fbbf24;
+    background: #1f1810;
+  }
+  .torque-item.danger {
+    border-left-color: #ef4444;
+    background: #1f1410;
+  }
+  
+  .torque-category {
+    font-size: 11px;
+    color: #60a5fa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #1f2937;
+  }
+  .torque-category:first-child { margin-top: 0; }
+  
+  .torque-no-results {
+    text-align: center;
+    padding: 30px 20px;
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  .torque-converter {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #3b82f6;
+  }
+  .converter-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .converter-row:last-child { margin-bottom: 0; }
+  .converter-input {
+    flex: 1;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #fbbf24;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: monospace;
+    -webkit-appearance: none;
+    outline: none;
+  }
+  .converter-input:focus { border-color: #3b82f6; }
+  .converter-label {
+    font-size: 13px;
+    color: #93c5fd;
+    font-weight: 600;
+    min-width: 60px;
+  }
+  .converter-title {
+    font-size: 13px;
+    color: #93c5fd;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  
+  .reset-btn {
+    background: #7f1d1d;
+    color: #fca5a5;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 12px;
+    -webkit-appearance: none;
+  }
+  
+  .clear-prices-btn {
+    background: #78350f;
+    color: #fcd34d;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    -webkit-appearance: none;
+  }
+  
+  .export-btn {
+    background: #1e3a5f;
+    color: #93c5fd;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    -webkit-appearance: none;
+  }
+  
+  .floating-status {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0f172a;
+    border-top: 1px solid #1f2937;
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    z-index: 100;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+  .save-indicator {
+    color: #10b981;
+    font-weight: 600;
+  }
+  
+  .help-text {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 6px;
+    line-height: 1.7;
+  }
+  .help-text strong { color: #93c5fd; }
+  
+  .install-hint {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .install-hint strong { color: #60a5fa; }
+  .install-hint .close-hint {
+    float: right;
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    -webkit-appearance: none;
+  }
+  
+  @media (max-width: 380px) {
+    h1 { font-size: 18px; }
+    .card { padding: 12px; }
+    .item-name { font-size: 13px; }
+    .price-input-wrap { min-width: 110px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <div class="install-hint" id="installHint">
+    <button class="close-hint" id="closeHint">✕</button>
+    <strong>📱 Para usar como app:</strong><br>
+    En Safari: toca <strong>Compartir</strong> (cuadradito con flecha) → <strong>Añadir a pantalla de inicio</strong>. Quedará como app icono y abrirá pantalla completa.
+  </div>
+  
+  <header>
+    <h1>🔧 BMW E90 N52 - Plan</h1>
+    <div class="subtitle">325i 2010 · 85.121 km · DIY</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="globalProgress" style="width: 0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">Cargando...</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-section="herramientas">🛠️ Herram.</button>
+    <button class="tab" data-section="repuestos">⚙️ Repuestos</button>
+    <button class="tab" data-section="verificacion">✅ Verificar</button>
+    <button class="tab" data-section="trabajo">📋 Trabajo</button>
+    <button class="tab" data-section="torques">📐 Torques</button>
+    <button class="tab" data-section="info">📖 Info</button>
+    <button class="tab" data-section="notas">📝 Notas</button>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="section active" id="herramientas">
+    <div class="help-text">
+      💡 El <strong>precio gris</strong> es referencia para no dejarte tumbar.<br>
+      Tocá el campo <strong>$ verde</strong> y meté el precio REAL al cotizar.<br>
+      Te dice si pagaste <span style="color:#6ee7b7">menos ✓</span>, <span style="color:#fca5a5">más ⚠</span> o <span style="color:#93c5fd">igual =</span>.
+    </div>
+
+    <div class="totals" id="toolsTotals">
+      <div class="totals-title">💰 Herramientas</div>
+      <div class="totals-row spent">Comprado (real): <span id="toolsBought">$0</span></div>
+      <div class="totals-row pending">Pendiente (estim.): <span id="toolsPending">$0</span></div>
+      <div class="totals-row saved">Ahorro vs estim.: <span id="toolsSaved">$0</span></div>
+      <div class="totals-row grand">Total proyectado: <span id="toolsTotal">$0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Ya en camino (Amazon)
+        <span class="badge priority-high">Comprado</span>
+      </div>
+      <div id="amazon-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Este fin de semana
+        <span class="badge priority-high">Crítico</span>
+      </div>
+      <div id="weekend-tools-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Para más adelante
+        <span class="badge priority-low">Futuro</span>
+      </div>
+      <div id="future-tools-list"></div>
+    </div>
+  </div>
+
+  <!-- REPUESTOS -->
+  <div class="section" id="repuestos">
+    <div class="totals">
+      <div class="totals-title">💰 Repuestos</div>
+      <div class="totals-row spent">Comprado (real): <span id="partsBought">$0</span></div>
+      <div class="totals-row pending">Pendiente (estim.): <span id="partsPending">$0</span></div>
+      <div class="totals-row saved">Ahorro vs estim.: <span id="partsSaved">$0</span></div>
+      <div class="totals-row grand">Total proyectado: <span id="partsTotal">$0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Repuestos críticos
+        <span class="badge priority-high">Este servicio</span>
+      </div>
+      <div id="parts-critical-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Pospuesto
+        <span class="badge priority-med">Después</span>
+      </div>
+      <div id="parts-later-list"></div>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Tu VIN:</strong> WBAPH1100AA637748<br>
+      Confírmá referencia exacta de bujías en <strong>realoem.com</strong> antes de pedir.
+    </div>
+  </div>
+
+  <!-- VERIFICACIONES -->
+  <div class="section" id="verificacion">
+    <div class="card">
+      <div class="card-title">
+        Verificaciones previas
+        <span class="badge priority-high">Hacer YA</span>
+      </div>
+      <div id="verification-list"></div>
+    </div>
+
+    <div class="info-box">
+      <strong>📋 Códigos del escáner a vigilar:</strong><br>
+      • <strong>3D27 DME</strong> - Sensor MAF<br>
+      • <strong>2F38 DME</strong> - Sensor temperatura admisión<br>
+      • <strong>A3AC/A3AD/A3AE</strong> - Errores comunicación motor<br>
+      Verificá con OBDLink CX cuáles vuelven después de borrarlos.
+    </div>
+  </div>
+
+  <!-- TRABAJO -->
+  <div class="section" id="trabajo">
+    <div class="card">
+      <div class="card-title">
+        🗓️ Cronograma
+        <span class="badge priority-high">Domingo</span>
+      </div>
+      <div id="timeline-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚡ Torques</div>
+      <table class="torque-table">
+        <tr><td>Bujías</td><td class="torque-value">23 Nm</td></tr>
+        <tr><td>Bobinas (tornillos)</td><td class="torque-value">10 Nm</td></tr>
+        <tr><td>Tapa válvulas</td><td class="torque-value">8-10 Nm</td></tr>
+        <tr><td>Filtro aceite</td><td class="torque-value">25 Nm</td></tr>
+        <tr><td>Tornillos rueda</td><td class="torque-value">120 Nm</td></tr>
+      </table>
+    </div>
+
+    <div class="danger-box">
+      <strong>⚠️ REGLAS DE ORO:</strong><br>
+      1. Motor FRÍO mínimo 2 horas antes de bujías<br>
+      2. Soplar pozos de bujías ANTES de sacar bobinas<br>
+      3. Roscar bujías nuevas A MANO primero<br>
+      4. Usar torquímetro SIEMPRE - el aluminio no perdona<br>
+      5. NO tocar hilos del MAF con NADA, solo el spray<br>
+      6. NUNCA debajo del carro solo con el gato<br>
+      7. Batería desconectada al limpiar MAF
+    </div>
+  </div>
+
+  <!-- TORQUES -->
+  <div class="section" id="torques">
+    <div class="card">
+      <div class="card-title">
+        📐 Torques BMW N52
+        <span class="badge priority-low">Oficial</span>
+      </div>
+      <div style="font-size:12px; color:#9ca3af; margin-bottom:12px; line-height:1.6;">
+        Valores oficiales del manual técnico BMW.<br>
+        🟡 Importante &nbsp;&nbsp; 🔴 Crítico (no exceder)<br>
+        ⚠️ Los marcados con asterisco requieren <strong>torque + ángulo</strong> (no usar en casa sin medidor).
+      </div>
+      
+      <input 
+        type="text" 
+        class="torque-search" 
+        id="torqueSearch" 
+        placeholder="🔍 Buscar (ej: bujía, llanta, aceite...)"
+      />
+      
+      <div id="torquesList"></div>
+    </div>
+
+    <div class="torque-converter">
+      <div class="converter-title">🔄 Conversor Nm ↔ ft-lb</div>
+      <div class="converter-row">
+        <span class="converter-label">Nm:</span>
+        <input type="number" class="converter-input" id="convNm" placeholder="ej: 23" inputmode="decimal"/>
+      </div>
+      <div class="converter-row">
+        <span class="converter-label">ft-lb:</span>
+        <input type="number" class="converter-input" id="convFtLb" placeholder="ej: 17" inputmode="decimal"/>
+      </div>
+      <div style="font-size:11px; color:#94a3b8; margin-top:8px; text-align:center;">
+        1 Nm = 0.7376 ft-lb &nbsp;|&nbsp; 1 ft-lb = 1.356 Nm
+      </div>
+    </div>
+
+    <div class="danger-box">
+      <strong>⚠️ REGLAS DE ORO PARA TORQUE:</strong><br>
+      1. Siempre con motor FRÍO en componentes de cabeza<br>
+      2. Roscar primero A MANO para evitar barrer rosca<br>
+      3. Aplicar torque en cruz/secuencia cuando son varios tornillos<br>
+      4. Tornillos de aluminio (cabeza azul): UNA SOLA VEZ, no reusar<br>
+      5. Si te da mal "feeling" parar y revisar - el aluminio no perdona<br>
+      6. Limpiar rosca de mugre antes de apretar
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Tu torquímetro ACDelco ARM601-3:</strong><br>
+      Rango: 5-50 Nm (3.7-37 ft-lb)<br>
+      Cubre la mayoría de los torques de este motor.<br>
+      Para tornillos de rueda (120 Nm) y suspensión pesada, usá tu click manual.
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="section" id="info">
+    <div class="card">
+      <div class="card-title">📦 Datos del carro</div>
+      <table class="torque-table">
+        <tr><td>Marca/Modelo</td><td><strong>BMW 325i E90</strong></td></tr>
+        <tr><td>Año</td><td><strong>2010</strong></td></tr>
+        <tr><td>Motor</td><td><strong>N52 (ind.)</strong></td></tr>
+        <tr><td>VIN</td><td style="font-family:monospace;font-size:11px">WBAPH1100AA637748</td></tr>
+        <tr><td>Placa</td><td><strong>RZN069</strong></td></tr>
+        <tr><td>Km</td><td><strong>85.121</strong></td></tr>
+        <tr><td>Color</td><td>Plata Titán</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔍 Referencias</div>
+      <div style="font-size:13px; line-height:1.8;">
+        <strong>Bujías:</strong><br>
+        • BMW OEM: 12120037244<br>
+        • NGK: SILZKR8B8DGS<br>
+        • Bosch alt: ZR5TPP330<br><br>
+        <strong>Filtro de aire:</strong><br>
+        • BMW: 13717536006<br>
+        • Mann: C30135-1<br>
+        • Mahle: LX1566<br><br>
+        <strong>Filtro anti-polen:</strong><br>
+        • Mann: CUK2939
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏪 Dónde comprar</div>
+      <div style="font-size:13px; line-height:1.8;">
+        <strong>Repuestos BMW:</strong><br>
+        • Tarento (Cl 19 con Cra 30)<br>
+        • AlemMotor<br>
+        • Repcomil<br>
+        • MercadoLibre (+reputación)<br><br>
+        <strong>Herramientas:</strong><br>
+        • Homecenter<br>
+        • Easy<br>
+        • Tooltime<br>
+        • Casa del Herrero
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📱 Apps OBDLink CX</div>
+      <div style="font-size:13px; line-height:1.8;">
+        <strong>BimmerLink</strong> - Diagnóstico ($40 USD)<br>
+        <em>Códigos, datos en vivo, reset CBS</em><br><br>
+        <strong>BimmerCode</strong> - Codificación ($42 USD)<br>
+        <em>Retrovisor en reversa, velocímetro digital</em><br><br>
+        <strong>OBDLink</strong> - Gratis<br>
+        <em>OBD genérico</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTAS -->
+  <div class="section" id="notas">
+    <div class="card">
+      <div class="card-title">📝 Mis notas</div>
+      <textarea 
+        class="notes-area" 
+        id="userNotes" 
+        placeholder="Escribí: cotizaciones, comentarios, problemas encontrados, fechas, etc..."
+      ></textarea>
+      <div style="font-size:11px; color:#6b7280; margin-top:6px;">Se guarda automático en tu iPhone.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💾 Backup</div>
+      <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">
+        Exportá tu progreso como archivo de texto (para no perder datos si borrás el navegador).
+      </div>
+      <button class="export-btn" id="exportBtn">💾 Exportar mis datos</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧹 Limpiar precios</div>
+      <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">
+        Borra solo los precios reales (mantiene checkboxes y notas).
+      </div>
+      <button class="clear-prices-btn" id="clearPricesBtn">🧹 Limpiar precios reales</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔄 Reiniciar todo</div>
+      <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">
+        Borra TODO el progreso. Solo úsalo si querés empezar de cero.
+      </div>
+      <button class="reset-btn" id="resetBtn">⚠️ Borrar todos los datos</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="floating-status">
+  <span id="saveStatus" class="save-indicator">✓ Guardado en tu iPhone</span>
+</div>
+
+<script>
+const STORAGE_KEY = 'bmw_e90_app_data';
+
+// TORQUES OFICIALES BMW N52 (del manual técnico)
+const TORQUES = [
+  // === MOTOR - MÁS COMUNES ===
+  { 
+    cat: 'Motor - Trabajos comunes',
+    name: 'Bujía a la cabeza',
+    value: '23 Nm',
+    valueFtLb: '17 ft-lb',
+    range: '20-26 Nm',
+    note: 'CRÍTICO: motor frío, roscar a mano primero. Rango: 23 ±3 Nm',
+    keywords: 'bujia bujías spark plug cabeza',
+    level: 'warning'
+  },
+  { 
+    cat: 'Motor - Trabajos comunes',
+    name: 'Tornillos de bobina de encendido',
+    value: '4 Nm',
+    valueFtLb: '35 in-lb',
+    note: 'Bajo torque, no apretar fuerte. Tornillos M6',
+    keywords: 'bobina ignition coil m6',
+    level: 'normal'
+  },
+  { 
+    cat: 'Motor - Trabajos comunes',
+    name: 'Tapón drenaje de aceite (cárter)',
+    value: '25 Nm',
+    valueFtLb: '18 ft-lb',
+    note: 'Anillo de cobre nuevo cada cambio',
+    keywords: 'tapon carter aceite drain oil pan plug',
+    level: 'normal'
+  },
+  { 
+    cat: 'Motor - Trabajos comunes',
+    name: 'Tapa de filtro de aceite (cartucho)',
+    value: '25 Nm',
+    valueFtLb: '18 ft-lb',
+    note: 'Filtro tipo cartucho, va arriba del motor',
+    keywords: 'filtro aceite oil filter cap housing',
+    level: 'normal'
+  },
+  { 
+    cat: 'Motor - Trabajos comunes',
+    name: 'Tapa de válvulas (M7)',
+    value: '7 Nm + 90°*',
+    valueFtLb: '63 in-lb + 90°',
+    note: '⚠️ Requiere ángulo. Tornillos M7 de aluminio (cabeza azul) UNA SOLA VEZ',
+    keywords: 'tapa valvulas valve cover',
+    level: 'warning'
+  },
+  
+  // === RUEDAS Y FRENOS ===
+  { 
+    cat: 'Ruedas y frenos',
+    name: 'Tornillos de rueda (lug bolts)',
+    value: '120 Nm',
+    valueFtLb: '88 ft-lb',
+    note: 'En cruz/estrella. Apretar en suelo, no en aire. Tu click manual sirve.',
+    keywords: 'rueda llanta lug bolt wheel pernos tuerca',
+    level: 'warning'
+  },
+  
+  // === SENSORES ===
+  { 
+    cat: 'Sensores',
+    name: 'Sensor de oxígeno (lambda/O2)',
+    value: '47 Nm',
+    valueFtLb: '35 ft-lb',
+    note: 'Usar grasa anti-seize en rosca. Cuidado con cables',
+    keywords: 'oxigeno o2 lambda sensor sonda',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Sensor MAF (no aplica torque)',
+    value: '—',
+    valueFtLb: '—',
+    note: '2 tornillos Torx T20, apretar firme pero no excesivo. Sin spec oficial',
+    keywords: 'maf masa aire air mass flow sensor admision',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Sensor de cigüeñal (crankshaft) M6',
+    value: '8 Nm',
+    valueFtLb: '6 ft-lb',
+    note: 'Tornillo M6',
+    keywords: 'cigüeñal crankshaft sensor posicion',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Sensor árbol levas admisión M6',
+    value: '9 Nm',
+    valueFtLb: '6.5 ft-lb',
+    note: 'Sensor de árbol de levas de admisión',
+    keywords: 'arbol levas camshaft sensor admision intake',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Switch de presión de aceite (M12)',
+    value: '20 Nm',
+    valueFtLb: '15 ft-lb',
+    note: 'Conector eléctrico, no forzar',
+    keywords: 'presion aceite oil pressure switch',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Sensor nivel aceite',
+    value: '8.5 Nm',
+    valueFtLb: '75 in-lb',
+    note: 'En el cárter de aceite',
+    keywords: 'nivel aceite oil level sensor ozs',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sensores',
+    name: 'Sensor de temperatura (cabeza)',
+    value: '18 Nm',
+    valueFtLb: '13 ft-lb',
+    note: 'Temperatura del refrigerante',
+    keywords: 'temperatura temp refrigerante coolant',
+    level: 'normal'
+  },
+  
+  // === ADMISIÓN Y ESCAPE ===
+  { 
+    cat: 'Admisión y escape',
+    name: 'Manifold de admisión a cabeza',
+    value: '15 Nm',
+    valueFtLb: '11 ft-lb',
+    note: 'En secuencia, no de golpe. Reemplazar juntas',
+    keywords: 'manifold admision intake colector multiple',
+    level: 'normal'
+  },
+  { 
+    cat: 'Admisión y escape',
+    name: 'Riel de inyectores (fuel rail) a cabeza',
+    value: '10 Nm',
+    valueFtLb: '7 ft-lb',
+    note: 'Despresurizar línea de combustible primero',
+    keywords: 'inyectores fuel rail riel injectores combustible',
+    level: 'normal'
+  },
+  { 
+    cat: 'Admisión y escape',
+    name: 'Manifold de escape a cabeza',
+    value: '20 Nm',
+    valueFtLb: '15 ft-lb',
+    note: 'Reemplazar juntas. Calentar para aflojar si están pegados',
+    keywords: 'manifold escape exhaust colector cabezote',
+    level: 'normal'
+  },
+  { 
+    cat: 'Admisión y escape',
+    name: 'Escape al manifold (tubería)',
+    value: '45 Nm',
+    valueFtLb: '33 ft-lb',
+    note: 'Aplicar anti-seize en pernos',
+    keywords: 'escape exhaust tuberia',
+    level: 'normal'
+  },
+  { 
+    cat: 'Admisión y escape',
+    name: 'Abrazadera de banda del escape',
+    value: '45 Nm',
+    valueFtLb: '33 ft-lb',
+    note: 'Para uniones del sistema de escape',
+    keywords: 'abrazadera banda clamp escape exhaust',
+    level: 'normal'
+  },
+  
+  // === SISTEMA ELÉCTRICO ===
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Terminal de batería (M6)',
+    value: '5 Nm',
+    valueFtLb: '44 in-lb',
+    note: 'Tornillo de fijación de batería M6',
+    keywords: 'bateria battery terminal borne pinch',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Fijación de batería (M8)',
+    value: '15 Nm',
+    valueFtLb: '11 ft-lb',
+    note: 'Tornillo M8 que sujeta la batería',
+    keywords: 'bateria battery fijacion pinch m8',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Cable de batería+ al starter',
+    value: '13 Nm',
+    valueFtLb: '10 ft-lb',
+    note: 'Conexión del positivo al motor de arranque',
+    keywords: 'cable bateria starter arranque positivo',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Cable del alternador',
+    value: '19 Nm',
+    valueFtLb: '14 ft-lb',
+    note: 'Conexión de salida del alternador',
+    keywords: 'alternador cable',
+    level: 'normal'
+  },
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Alternador al bloque (M8)',
+    value: '10 Nm + 180°*',
+    valueFtLb: '7 ft-lb + 180°',
+    note: '⚠️ Requiere ángulo después del torque inicial',
+    keywords: 'alternador alternator bloque',
+    level: 'warning'
+  },
+  { 
+    cat: 'Sistema eléctrico',
+    name: 'Polea tensora del alternador',
+    value: '80 Nm',
+    valueFtLb: '59 ft-lb',
+    note: 'Idler pulley al housing del alternador',
+    keywords: 'polea tensora alternador idler pulley',
+    level: 'normal'
+  },
+  
+  // === TRANSMISIÓN Y DRIVELINE ===
+  { 
+    cat: 'Transmisión',
+    name: 'Tapón drenaje de transmisión M12',
+    value: '25 Nm',
+    valueFtLb: '18 ft-lb',
+    note: 'Para transmisión ZF (verificar tipo)',
+    keywords: 'transmision drenaje tapon plug',
+    level: 'normal'
+  },
+  { 
+    cat: 'Transmisión',
+    name: 'Tapón drenaje de transmisión M18',
+    value: '35 Nm',
+    valueFtLb: '26 ft-lb',
+    note: 'Tapón más grande, depende del modelo',
+    keywords: 'transmision drenaje tapon plug m18',
+    level: 'normal'
+  },
+  { 
+    cat: 'Transmisión',
+    name: 'Tapón diferencial trasero',
+    value: '60 Nm',
+    valueFtLb: '44 ft-lb',
+    note: 'Aceite del diferencial trasero',
+    keywords: 'diferencial differential tapon plug trasero',
+    level: 'normal'
+  },
+  { 
+    cat: 'Transmisión',
+    name: 'Volante al cigüeñal (flywheel)',
+    value: '120 Nm',
+    valueFtLb: '89 ft-lb',
+    note: 'Volante M8. Aplicar threadlocker. Tornillos NUEVOS',
+    keywords: 'volante flywheel cigüeñal crankshaft',
+    level: 'warning'
+  },
+  { 
+    cat: 'Transmisión',
+    name: 'Clutch (embrague) al volante',
+    value: '15 Nm + 90°*',
+    valueFtLb: '11 ft-lb + 90°',
+    note: '⚠️ Requiere ángulo. Solo manual transmissions',
+    keywords: 'clutch embrague volante flywheel',
+    level: 'warning'
+  },
+  { 
+    cat: 'Transmisión',
+    name: 'Soporte de transmisión a chasis',
+    value: '19 Nm',
+    valueFtLb: '14 ft-lb',
+    note: 'Soportes traseros',
+    keywords: 'soporte transmision support mount',
+    level: 'normal'
+  },
+  
+  // === SUSPENSIÓN BÁSICA ===
+  { 
+    cat: 'Suspensión',
+    name: 'Refuerzo torres amortiguador (M10)',
+    value: '40 Nm + 60°*',
+    valueFtLb: '30 ft-lb + 60°',
+    note: '⚠️ Requiere ángulo. Strut tower brace',
+    keywords: 'torres amortiguador strut tower brace refuerzo',
+    level: 'warning'
+  },
+  { 
+    cat: 'Suspensión',
+    name: 'Refuerzo torres a mamparo (M12)',
+    value: '100 Nm + 90°*',
+    valueFtLb: '74 ft-lb + 90°',
+    note: '⚠️ Requiere ángulo. Strut tower a bulkhead',
+    keywords: 'mamparo bulkhead refuerzo torres',
+    level: 'danger'
+  },
+  
+  // === DRIVE SHAFT ===
+  { 
+    cat: 'Cardán y juntas',
+    name: 'Flex disc delantero M10',
+    value: '60 Nm',
+    valueFtLb: '44 ft-lb',
+    note: 'Disco flexible delantero del cardán',
+    keywords: 'flex disc disco flexible cardan driveshaft delantero',
+    level: 'normal'
+  },
+  { 
+    cat: 'Cardán y juntas',
+    name: 'Flex disc trasero M12',
+    value: '55 Nm + 90°*',
+    valueFtLb: '41 ft-lb + 90°',
+    note: '⚠️ Requiere ángulo. Disco flexible trasero',
+    keywords: 'flex disc disco flexible cardan driveshaft trasero',
+    level: 'warning'
+  },
+  { 
+    cat: 'Cardán y juntas',
+    name: 'Cardán al diferencial (U-joint)',
+    value: '40 Nm',
+    valueFtLb: '30 ft-lb',
+    note: 'Pernos con dientes ribeteados',
+    keywords: 'cardan diferencial driveshaft u-joint junta',
+    level: 'normal'
+  },
+  { 
+    cat: 'Cardán y juntas',
+    name: 'Soporte central del cardán al chasis',
+    value: '21 Nm',
+    valueFtLb: '15 ft-lb',
+    note: 'Center bearing support',
+    keywords: 'cardan soporte centro center bearing support',
+    level: 'normal'
+  },
+  
+  // === REFERENCIA RÁPIDA (no del N52 pero útil) ===
+  { 
+    cat: 'Referencia tornillería estándar',
+    name: 'Tornillo M6 estándar (sin spec)',
+    value: '8-10 Nm',
+    valueFtLb: '6-7 ft-lb',
+    note: 'Solo si no hay spec específico',
+    keywords: 'm6 estandar standard generico',
+    level: 'normal'
+  },
+  { 
+    cat: 'Referencia tornillería estándar',
+    name: 'Tornillo M8 estándar (sin spec)',
+    value: '20-25 Nm',
+    valueFtLb: '15-18 ft-lb',
+    note: 'Solo si no hay spec específico',
+    keywords: 'm8 estandar standard generico',
+    level: 'normal'
+  },
+  { 
+    cat: 'Referencia tornillería estándar',
+    name: 'Tornillo M10 estándar (sin spec)',
+    value: '40-50 Nm',
+    valueFtLb: '30-37 ft-lb',
+    note: 'Solo si no hay spec específico',
+    keywords: 'm10 estandar standard generico',
+    level: 'normal'
+  },
+];
+
+const DEFAULT_DATA = {
+  amazon: [
+    { id: 'a1', name: 'OBDLink CX', price: 320000, note: 'Diagnóstico + codificación BMW' },
+    { id: 'a2', name: 'Torquímetro ACDelco ARM601-3 3/8"', price: 450000, note: '5-50 Nm, ISO 6789, precisión ±2%' },
+  ],
+  weekendTools: [
+    { id: 'w1', name: 'Copa bujía 14mm con imán 3/8"', price: 50000, note: 'CRÍTICA - sin esto no salen las bujías' },
+    { id: 'w2', name: 'Extensión 3/8" de 250mm', price: 40000, note: 'Para llegar al fondo del pozo de bujías' },
+    { id: 'w3', name: 'Set Torx 3/8" (Stanley/Bahco)', price: 200000, note: 'T20-T55, mejor calidad que el actual' },
+    { id: 'w4', name: 'Linterna LED de cabeza', price: 60000, note: '200+ lumens, dos manos libres' },
+    { id: 'w5', name: 'Bandeja magnética', price: 40000, note: 'Para no perder tornillos chiquitos' },
+    { id: 'w6', name: 'Guantes nitrilo (caja 100u)', price: 45000, note: 'Talla M o L' },
+    { id: 'w7', name: '2 latas aire comprimido', price: 65000, note: 'Soplar pozos antes de sacar bobinas' },
+  ],
+  futureTools: [
+    { id: 'f1', name: 'Gato hidráulico 2T low profile', price: 350000, note: 'Para cambio de aceite y trabajos bajo el carro' },
+    { id: 'f2', name: 'Multímetro digital', price: 80000, note: 'UNI-T UT33 o similar' },
+    { id: 'f3', name: 'Bandeja para aceite usado', price: 60000, note: 'Cuando hagas cambio de aceite DIY' },
+    { id: 'f4', name: 'Cable K+DCAN para ISTA', price: 200000, note: 'Acceso total BMW desde laptop Windows' },
+  ],
+  partsCritical: [
+    { id: 'p1', name: '6 Bujías NGK SILZKR8B8DGS', price: 420000, note: 'Confirmar referencia con VIN en realoem.com' },
+    { id: 'p2', name: 'CRC MAF Cleaner (1 lata)', price: 55000, note: 'ESPECÍFICO para MAF - NO genérico' },
+  ],
+  partsLater: [
+    { id: 'pl1', name: 'Filtro anti-polen Mann CUK2939', price: 100000, note: 'Solo afecta aire de cabina - no urgente' },
+    { id: 'pl2', name: 'Filtro de aire motor', price: 100000, note: 'Verificar primero si te lo cambiaron en el taller' },
+    { id: 'pl3', name: 'Aceite BMW LL-01 5W-30 (7L)', price: 300000, note: 'Para próximo cambio en casa (~15.000 km)' },
+    { id: 'pl4', name: 'Filtro aceite Mahle OX254D2', price: 50000, note: 'Para próximo cambio' },
+  ],
+  verifications: [
+    { id: 'v1', name: 'Confirmar referencia bujías en realoem.com', note: 'Pegá tu VIN en realoem.com → Engine Electrical → Spark plug' },
+    { id: 'v2', name: 'Revisar filtro de aire del motor', note: 'Si está sucio = reclamar al taller. Si está nuevo = no comprar' },
+    { id: 'v3', name: 'Verificar CBS de aceite en tablero', note: 'Llave en posición 2 → mantener botón km 5 seg → buscar ícono aceite' },
+    { id: 'v4', name: 'Conseguir cotización Tarento/AlemMotor', note: 'Por WhatsApp o teléfono antes de viajar' },
+    { id: 'v5', name: 'Buscar vendedor confiable bujías en MercadoLibre', note: 'MercadoLíder Platinum, originales NGK' },
+    { id: 'v6', name: 'Reservar 4-5 horas el domingo', note: 'No empezar si no tenés tiempo completo' },
+    { id: 'v7', name: 'Ver tutorial YouTube cambio bujías N52', note: 'Buscar "BMW N52 spark plug replacement"' },
+    { id: 'v8', name: 'Tener celular cargado para grabar', note: 'Fotos antes/después + grabar dudas' },
+  ],
+  timeline: [
+    { id: 't1', phase: '0. Preparación (noche anterior)', desc: 'Motor frío. Todo listo en mesa. Tutorial revisado.' },
+    { id: 't2', phase: '1. Setup OBDLink (30 min)', desc: 'Conectar, pairing Bluetooth, instalar apps, escaneo baseline.' },
+    { id: 't3', phase: '2. Backup configuración', desc: 'BimmerCode → Save coding (por si algo sale mal después).' },
+    { id: 't4', phase: '3. Borrar códigos viejos', desc: 'BimmerLink → Clear codes. Anotar cuáles había.' },
+    { id: 't5', phase: '4. Limpieza MAF (30 min)', desc: 'Batería desconectada → quitar MAF → spray → secar 15 min → remontar.' },
+    { id: 't6', phase: '5. Cambio bujías (90 min)', desc: 'Tapa motor → soplar pozos → bobina por bobina → bujía nueva a 23 Nm.' },
+    { id: 't7', phase: '6. Reset CBS aceite', desc: 'Si el taller no lo hizo, hacerlo con BimmerLink o desde tablero.' },
+    { id: 't8', phase: '7. Test drive (30 min)', desc: 'Ralentí estable, sin códigos, sin testigos. Pasear 10-15 km.' },
+    { id: 't9', phase: '8. Re-escaneo final', desc: 'Verificar que no haya códigos nuevos. Foto del estado limpio.' },
+    { id: 't10', phase: '9. Codificación de premio 🎉', desc: 'Retrovisor en reversa - la que querías desde el principio.' },
+  ]
+};
+
+let appData = { items: {}, prices: {}, notes: '' };
+let saveTimeout = null;
+
+function fmt(n) {
+  if (n === 0) return '$0';
+  return '$' + Math.round(n / 1000) + 'k';
+}
+function fmtFull(n) {
+  return '$' + Math.round(n).toLocaleString('es-CO');
+}
+
+// ===== TORQUES =====
+function renderTorques(filterText = '') {
+  const container = document.getElementById('torquesList');
+  if (!container) return;
+  
+  const filter = filterText.toLowerCase().trim();
+  let filtered = TORQUES;
+  
+  if (filter) {
+    filtered = TORQUES.filter(t => 
+      t.name.toLowerCase().includes(filter) ||
+      t.keywords.toLowerCase().includes(filter) ||
+      t.cat.toLowerCase().includes(filter) ||
+      t.value.toLowerCase().includes(filter)
+    );
+  }
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="torque-no-results">No se encontraron torques.<br>Probá con: bujía, llanta, aceite, batería...</div>';
+    return;
+  }
+  
+  // Agrupar por categoría
+  const byCategory = {};
+  filtered.forEach(t => {
+    if (!byCategory[t.cat]) byCategory[t.cat] = [];
+    byCategory[t.cat].push(t);
+  });
+  
+  let html = '';
+  Object.keys(byCategory).forEach(cat => {
+    html += `<div class="torque-category">${cat}</div>`;
+    byCategory[cat].forEach(t => {
+      const levelClass = t.level === 'warning' ? 'warning' : (t.level === 'danger' ? 'danger' : '');
+      html += `
+        <div class="torque-item ${levelClass}">
+          <div class="torque-item-name">${t.name}</div>
+          <div class="torque-item-value">${t.value} <span style="font-size:13px; color:#94a3b8;">(${t.valueFtLb})</span></div>
+          ${t.note ? `<div class="torque-item-note">${t.note}</div>` : ''}
+        </div>
+      `;
+    });
+  });
+  
+  container.innerHTML = html;
+}
+
+// Conversor Nm <-> ft-lb
+function setupTorqueConverter() {
+  const nmInput = document.getElementById('convNm');
+  const ftLbInput = document.getElementById('convFtLb');
+  if (!nmInput || !ftLbInput) return;
+  
+  let updating = false;
+  
+  nmInput.addEventListener('input', (e) => {
+    if (updating) return;
+    updating = true;
+    const nm = parseFloat(e.target.value);
+    if (!isNaN(nm)) {
+      ftLbInput.value = (nm * 0.7376).toFixed(2);
+    } else {
+      ftLbInput.value = '';
+    }
+    updating = false;
+  });
+  
+  ftLbInput.addEventListener('input', (e) => {
+    if (updating) return;
+    updating = true;
+    const ftLb = parseFloat(e.target.value);
+    if (!isNaN(ftLb)) {
+      nmInput.value = (ftLb * 1.356).toFixed(2);
+    } else {
+      nmInput.value = '';
+    }
+    updating = false;
+  });
+}
+
+function setupTorqueSearch() {
+  const searchInput = document.getElementById('torqueSearch');
+  if (!searchInput) return;
+  searchInput.addEventListener('input', (e) => {
+    renderTorques(e.target.value);
+  });
+}
+
+function loadData() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      appData = JSON.parse(stored);
+    }
+  } catch(e) {
+    console.error('Error cargando datos:', e);
+  }
+  if (!appData.items) appData.items = {};
+  if (!appData.prices) appData.prices = {};
+  if (appData.notes === undefined) appData.notes = '';
+  renderAll();
+}
+
+function saveData() {
+  showSaveStatus('Guardando...', '#fbbf24');
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    showSaveStatus('✓ Guardado en tu iPhone', '#10b981');
+  } catch(e) {
+    showSaveStatus('⚠ Error al guardar', '#ef4444');
+  }
+}
+
+function showSaveStatus(msg, color) {
+  const el = document.getElementById('saveStatus');
+  el.textContent = msg;
+  el.style.color = color;
+}
+
+function debouncedSave() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(saveData, 500);
+}
+
+function isItemDone(id) { return appData.items[id] === true; }
+function toggleItem(id) {
+  appData.items[id] = !isItemDone(id);
+  renderAll();
+  debouncedSave();
+}
+
+function getRealPrice(id) { return appData.prices[id]; }
+function setRealPrice(id, val) {
+  if (val === '' || val === null || isNaN(val)) {
+    delete appData.prices[id];
+  } else {
+    appData.prices[id] = Number(val);
+  }
+  updateTotals();
+  debouncedSave();
+}
+function getEffectivePrice(id, estimated) {
+  const real = getRealPrice(id);
+  return (real !== undefined) ? real : estimated;
+}
+
+function renderShopItems(containerId, items) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  items.forEach(item => {
+    const done = isItemDone(item.id);
+    const realPrice = getRealPrice(item.id);
+    const hasRealPrice = realPrice !== undefined;
+    
+    let diffHtml = '';
+    if (hasRealPrice) {
+      const diff = realPrice - item.price;
+      if (diff < -1000) {
+        diffHtml = `<span class="price-diff better">✓ -${fmt(Math.abs(diff))}</span>`;
+      } else if (diff > 1000) {
+        diffHtml = `<span class="price-diff worse">⚠ +${fmt(diff)}</span>`;
+      } else {
+        diffHtml = `<span class="price-diff equal">= igual</span>`;
+      }
+    }
+    
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div class="checkbox ${done ? 'checked' : ''}" data-id="${item.id}"></div>
+      <div class="item-content">
+        <div class="item-name ${done ? 'done' : ''}">${item.name}</div>
+        <div class="price-row">
+          <span class="price-estimated">≈ ${fmt(item.price)}</span>
+          <div class="price-input-wrap">
+            <span class="currency">$</span>
+            <input 
+              type="number" 
+              class="price-input" 
+              placeholder="Tu precio"
+              value="${hasRealPrice ? realPrice : ''}"
+              data-id="${item.id}"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+          </div>
+          ${diffHtml}
+        </div>
+        ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+  container.querySelectorAll('.checkbox').forEach(cb => {
+    cb.addEventListener('click', () => toggleItem(cb.dataset.id));
+  });
+  container.querySelectorAll('.price-input').forEach(inp => {
+    inp.addEventListener('input', (e) => {
+      setRealPrice(inp.dataset.id, e.target.value);
+    });
+    inp.addEventListener('blur', () => renderAll());
+  });
+}
+
+function renderVerifications() {
+  const container = document.getElementById('verification-list');
+  container.innerHTML = '';
+  DEFAULT_DATA.verifications.forEach(item => {
+    const done = isItemDone(item.id);
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div class="checkbox ${done ? 'checked' : ''}" data-id="${item.id}"></div>
+      <div class="item-content">
+        <div class="item-name ${done ? 'done' : ''}">${item.name}</div>
+        ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+  container.querySelectorAll('.checkbox').forEach(cb => {
+    cb.addEventListener('click', () => toggleItem(cb.dataset.id));
+  });
+}
+
+function renderTimeline() {
+  const container = document.getElementById('timeline-list');
+  container.innerHTML = '';
+  DEFAULT_DATA.timeline.forEach(item => {
+    const done = isItemDone(item.id);
+    const div = document.createElement('div');
+    div.className = `timeline-item ${done ? 'done' : ''}`;
+    div.innerHTML = `
+      <div class="timeline-phase" style="${done ? 'text-decoration:line-through; opacity:0.6;' : ''}">${item.phase}</div>
+      <div class="timeline-desc">${item.desc}</div>
+      <div style="margin-top:8px;">
+        <div class="checkbox ${done ? 'checked' : ''}" data-id="${item.id}" style="display:inline-flex;"></div>
+        <span style="font-size:12px; color:#9ca3af; margin-left:8px; vertical-align:top; line-height:28px;">${done ? 'Completado' : 'Marcar como hecho'}</span>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+  container.querySelectorAll('.checkbox').forEach(cb => {
+    cb.addEventListener('click', () => toggleItem(cb.dataset.id));
+  });
+}
+
+function updateTotals() {
+  const tools = [...DEFAULT_DATA.amazon, ...DEFAULT_DATA.weekendTools, ...DEFAULT_DATA.futureTools];
+  const parts = [...DEFAULT_DATA.partsCritical, ...DEFAULT_DATA.partsLater];
+  
+  let toolsBoughtReal = 0, toolsPendingEst = 0, toolsBoughtEst = 0;
+  tools.forEach(t => {
+    const effective = getEffectivePrice(t.id, t.price);
+    if (isItemDone(t.id)) {
+      toolsBoughtReal += effective;
+      toolsBoughtEst += t.price;
+    } else {
+      toolsPendingEst += effective;
+    }
+  });
+  const toolsSaved = toolsBoughtEst - toolsBoughtReal;
+  
+  let partsBoughtReal = 0, partsPendingEst = 0, partsBoughtEst = 0;
+  parts.forEach(p => {
+    const effective = getEffectivePrice(p.id, p.price);
+    if (isItemDone(p.id)) {
+      partsBoughtReal += effective;
+      partsBoughtEst += p.price;
+    } else {
+      partsPendingEst += effective;
+    }
+  });
+  const partsSaved = partsBoughtEst - partsBoughtReal;
+  
+  document.getElementById('toolsBought').textContent = fmtFull(toolsBoughtReal);
+  document.getElementById('toolsPending').textContent = fmtFull(toolsPendingEst);
+  document.getElementById('toolsTotal').textContent = fmtFull(toolsBoughtReal + toolsPendingEst);
+  const toolsSavedEl = document.getElementById('toolsSaved');
+  if (toolsSaved > 0) {
+    toolsSavedEl.textContent = '+ ' + fmtFull(toolsSaved) + ' 💚';
+    toolsSavedEl.parentElement.style.color = '#6ee7b7';
+  } else if (toolsSaved < 0) {
+    toolsSavedEl.textContent = '- ' + fmtFull(Math.abs(toolsSaved)) + ' 💸';
+    toolsSavedEl.parentElement.style.color = '#fca5a5';
+  } else {
+    toolsSavedEl.textContent = fmtFull(0);
+    toolsSavedEl.parentElement.style.color = '#93c5fd';
+  }
+  
+  document.getElementById('partsBought').textContent = fmtFull(partsBoughtReal);
+  document.getElementById('partsPending').textContent = fmtFull(partsPendingEst);
+  document.getElementById('partsTotal').textContent = fmtFull(partsBoughtReal + partsPendingEst);
+  const partsSavedEl = document.getElementById('partsSaved');
+  if (partsSaved > 0) {
+    partsSavedEl.textContent = '+ ' + fmtFull(partsSaved) + ' 💚';
+    partsSavedEl.parentElement.style.color = '#6ee7b7';
+  } else if (partsSaved < 0) {
+    partsSavedEl.textContent = '- ' + fmtFull(Math.abs(partsSaved)) + ' 💸';
+    partsSavedEl.parentElement.style.color = '#fca5a5';
+  } else {
+    partsSavedEl.textContent = fmtFull(0);
+    partsSavedEl.parentElement.style.color = '#93c5fd';
+  }
+  
+  const allItems = [...tools, ...parts, ...DEFAULT_DATA.verifications, ...DEFAULT_DATA.timeline];
+  const totalCount = allItems.length;
+  const doneCount = allItems.filter(i => isItemDone(i.id)).length;
+  const pct = totalCount > 0 ? (doneCount / totalCount * 100) : 0;
+  
+  document.getElementById('globalProgress').style.width = pct + '%';
+  document.getElementById('progressText').textContent = 
+    `${doneCount} de ${totalCount} tareas (${pct.toFixed(0)}%)`;
+}
+
+function renderNotes() {
+  document.getElementById('userNotes').value = appData.notes || '';
+}
+
+function renderAll() {
+  renderShopItems('amazon-list', DEFAULT_DATA.amazon);
+  renderShopItems('weekend-tools-list', DEFAULT_DATA.weekendTools);
+  renderShopItems('future-tools-list', DEFAULT_DATA.futureTools);
+  renderShopItems('parts-critical-list', DEFAULT_DATA.partsCritical);
+  renderShopItems('parts-later-list', DEFAULT_DATA.partsLater);
+  renderVerifications();
+  renderTimeline();
+  renderNotes();
+  updateTotals();
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.section).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+document.getElementById('userNotes').addEventListener('input', (e) => {
+  appData.notes = e.target.value;
+  debouncedSave();
+});
+
+document.getElementById('clearPricesBtn').addEventListener('click', () => {
+  if (confirm('¿Borrar todos los precios reales que metiste?')) {
+    appData.prices = {};
+    renderAll();
+    saveData();
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('¿Borrar TODO el progreso? Esto no se puede deshacer.')) {
+    if (confirm('¿Estás seguro? Última confirmación.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      appData = { items: {}, prices: {}, notes: '' };
+      renderAll();
+      showSaveStatus('✓ Datos reiniciados', '#10b981');
+    }
+  }
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const exportText = `BMW E90 N52 - Backup ${new Date().toLocaleString('es-CO')}\n\n${JSON.stringify(appData, null, 2)}`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'BMW E90 Backup',
+      text: exportText
+    }).catch(() => {
+      // Fallback si share falla
+      fallbackExport(exportText);
+    });
+  } else {
+    fallbackExport(exportText);
+  }
+});
+
+function fallbackExport(text) {
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `bmw_e90_backup_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('closeHint').addEventListener('click', () => {
+  document.getElementById('installHint').style.display = 'none';
+  localStorage.setItem('hideInstallHint', 'true');
+});
+
+// Ocultar hint si ya estamos en modo PWA o si se cerró antes
+if (window.navigator.standalone || localStorage.getItem('hideInstallHint') === 'true') {
+  document.getElementById('installHint').style.display = 'none';
+}
+
+loadData();
+
+// Inicializar torques (no dependen de localStorage)
+renderTorques();
+setupTorqueSearch();
+setupTorqueConverter();
+</script>
+</body>
+</html>
